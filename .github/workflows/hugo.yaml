@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - ci/test-github-pages
   workflow_dispatch:
 permissions:
   contents: read
@@ -95,6 +96,7 @@ jobs:
         with:
           path: ./public
   deploy:
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
