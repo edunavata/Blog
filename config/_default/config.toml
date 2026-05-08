@@ -38,3 +38,7 @@ summaryLength = 30
   [[related.indices]]
     name = "date"
     weight = 10
+
+[caches]
+  [caches.images]
+    dir = ":cacheDir/images"
