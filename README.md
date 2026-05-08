@@ -90,11 +90,15 @@ hugo --minify
 
 | Parámetro | Valor |
 |-----------|-------|
-| Build command | `hugo --minify` |
+| Build command | `hugo --minify -b $CF_PAGES_URL` |
 | Output directory | `public` |
 | `HUGO_VERSION` (env var) | `0.147.9` |
 
+El flag `-b $CF_PAGES_URL` hace que la `baseURL` sea dinámica: usa el dominio real del deploy actual, así funciona tanto en producción como en los preview deployments de cada branch/PR.
+
 Conecta el repositorio desde el dashboard de Cloudflare Pages y configura los valores anteriores. El despliegue se lanza automáticamente en cada push a la rama principal.
+
+> **Submódulos:** Cloudflare Pages clona los submódulos automáticamente si están registrados en `.gitmodules` y son públicos (es el caso del tema Congo).
 
 ## Personalización
 

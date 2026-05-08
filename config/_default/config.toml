@@ -1,6 +1,6 @@
 # -- Configuración base del sitio --
 theme = "congo"
-baseURL = "https://mi-blog.pages.dev/"
+baseURL = "https://blog-cmj.pages.dev/"
 defaultContentLanguage = "es"
 defaultContentLanguageInSubdir = false
 enableRobotsTXT = true
