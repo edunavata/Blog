@@ -2,6 +2,7 @@
 title: "Cómo monté este blog con Hugo y Congo"
 date: 2025-01-20
 draft: false
+slug: "como-monte-este-blog"
 description: "Guía rápida de cómo configuré Hugo con el tema Congo y despliegue en Cloudflare Pages."
 summary: "Guía rápida de cómo configuré Hugo con el tema Congo y despliegue en Cloudflare Pages."
 tags: ["hugo", "tutorial", "cloudflare"]

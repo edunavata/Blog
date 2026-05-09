@@ -1,6 +1,7 @@
 ---
 title: "Sobre mí"
 description: "Conóceme un poco más."
+slug: "sobre-mi"
 layout: "simple"
 ---
 
