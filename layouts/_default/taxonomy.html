@@ -13,8 +13,8 @@
           <h2 class="li-title">{{ .Title }}</h2>
           <p class="li-desc">{{ .Description | default (.Summary | plainify | truncate 200) }}</p>
           <div class="li-meta">
-            {{ with .Date }}<span>{{ time.Format "2 January 2006" . }}</span>{{ end }}
-            {{ with .ReadingTime }}<span class="li-dot"></span><span>{{ i18n "minuteRead" . }}</span>{{ end }}
+            {{with .Date }}<span>{{ time.Format "2 January 2006" . }}</span>{{ end }}
+            {{with .ReadingTime }}<span class="li-dot"></span><span>{{ i18n "minuteRead" . }}</span>{{ end }}
           </div>
         </a>
       {{ end }}
@@ -35,7 +35,7 @@
   {{/* ── Switcher entre taxonomías ── */}}
   <nav class="tax-tabs" aria-label="Taxonomías">
     {{- range $plural, $taxTerms := site.Taxonomies -}}
-      {{- with site.GetPage (printf "/%s" $plural) -}}
+      {{-with site.GetPage (printf "/%s" $plural) -}}
         {{- $active := eq $plural $.Data.Plural -}}
         <a class="tax-tab{{ if $active }} active{{ end }}"
            href="{{ .RelPermalink }}"
@@ -81,7 +81,7 @@
   var TERMS = [
     {{- range .Data.Terms.ByCount -}}
       {{- $url := "" -}}
-      {{- with site.GetPage (printf "/%s/%s" $.Data.Plural (.Name | urlize)) -}}
+      {{-with site.GetPage (printf "/%s/%s" $.Data.Plural (.Name | urlize)) -}}
         {{- $url = .RelPermalink -}}
       {{- end -}}
       { name: {{ .Name | jsonify }}, count: {{ .Count }}, url: {{ $url | jsonify }} },
@@ -114,9 +114,15 @@
           '<span class="term-arrow" aria-hidden="true">→</span>' +
           '</a>';
       }).join('');
-      grp.innerHTML =
-        '<div class="alpha-letter" aria-hidden="true">' + letter + '</div>' +
-        '<div class="alpha-terms">' + termsHTML + '</div>';
+      var letterDiv = document.createElement('div');
+      letterDiv.className = 'alpha-letter';
+      letterDiv.setAttribute('aria-hidden', 'true');
+      letterDiv.textContent = letter;
+      grp.appendChild(letterDiv);
+      var termsDiv = document.createElement('div');
+      termsDiv.className = 'alpha-terms';
+      termsDiv.innerHTML = termsHTML;
+      grp.appendChild(termsDiv);
       alphaEl.appendChild(grp);
     });
   }
