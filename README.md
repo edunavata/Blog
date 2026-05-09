@@ -1,26 +1,34 @@
 # Mi Blog
 
-Blog personal bilingüe (ES/EN) construido con [Hugo](https://gohugo.io/) y el tema [Congo](https://github.com/jpanther/congo). Desplegado simultáneamente en Cloudflare Pages y GitHub Pages.
+Blog personal bilingüe (ES/EN) construido con [Hugo](https://gohugo.io/) y el
+tema [Congo](https://github.com/jpanther/congo). Desplegado en Cloudflare
+Pages.
 
-| Despliegue | URL |
-|---|---|
-| Cloudflare Pages | https://blog-cmj.pages.dev/ |
-| GitHub Pages | https://edunavata.github.io/Blog/ |
+| Despliegue       | URL                          |
+|------------------|------------------------------|
+| Cloudflare Pages | https://blog-cmj.pages.dev/  |
 
 ## Stack
 
 - **Hugo Extended 0.160.0** — generador de sitios estáticos
 - **Congo v2.13** — tema (Git Submodule)
-- **Cloudflare Pages** + **GitHub Pages** — hosting y CDN
+- **Cloudflare Pages** — hosting, CDN y previews
 
 ## Requisitos
 
-Hugo Extended >= 0.160.0. Descarga el binario desde [GitHub Releases](https://github.com/gohugoio/hugo/releases).
+Hugo Extended 0.160.0. La versión está fijada en `.tool-versions`, así que con
+[`mise`](https://mise.jdx.dev/) o [`asdf`](https://asdf-vm.com/) basta con:
 
 ```bash
-# Verificar instalación
-hugo version  # debe incluir "extended"
+mise install     # o: asdf install
+hugo version     # debe incluir "extended" y la versión 0.160.0
 ```
+
+Si prefieres instalar a mano, descarga el binario desde
+[GitHub Releases](https://github.com/gohugoio/hugo/releases/tag/v0.160.0) y
+asegúrate de que `hugo version` reporta exactamente `0.160.0` con `extended`.
+La CI usa esa misma versión, y un mismatch local puede dejar pasar un build
+que luego falla en CI.
 
 ## Desarrollo local
 
@@ -34,13 +42,15 @@ El blog estará disponible en:
 - Español: `http://localhost:1313/`
 - English: `http://localhost:1313/en/`
 
-> Si clonaste sin `--recurse-submodules`, ejecuta `git submodule update --init` para obtener el tema.
+> Si clonaste sin `--recurse-submodules`, ejecuta
+> `git submodule update --init` para obtener el tema.
 
 ## Estructura
 
 ```
 ├── .github/workflows/
-│   └── hugo.yaml            # Workflow de despliegue a GitHub Pages
+│   └── ci.yaml              # Build estricto + link check en PRs y main
+├── .tool-versions           # Pin de Hugo (mise/asdf)
 ├── config/_default/
 │   ├── config.toml          # Configuración base
 │   ├── languages.es.toml    # Parámetros idioma español
@@ -57,7 +67,9 @@ El blog estará disponible en:
 │           ├── index.es.md  # Versión en español
 │           └── index.en.md  # Versión en inglés
 ├── assets/img/              # Imágenes (foto de autor, etc.)
+├── docs/CLOUDFLARE.md       # Configuración del dashboard de CF Pages
 ├── layouts/                 # Overrides de plantillas del tema
+├── static/_headers          # Headers HTTP servidos por CF Pages
 └── themes/congo/            # Tema (Git Submodule, no editar)
 ```
 
@@ -88,44 +100,89 @@ Duplica el archivo como `index.en.md` con el contenido traducido.
 ## Build de producción
 
 ```bash
-hugo --minify
+hugo --gc --minify --panicOnWarning -b "https://blog-cmj.pages.dev/"
 # El sitio generado queda en public/
 ```
 
+`--panicOnWarning` es la misma flag que usa CI: cualquier deprecation o
+warning del tema rompe el build. Si añade un warning legítimo, créa un
+override en `layouts/` que lo arregle (ver "Actualizar el tema Congo").
+
 ## Despliegue
 
-El sitio se despliega automáticamente en dos plataformas en cada push a `main`. Cada pipeline sobrescribe la `baseURL` en build time, así que el dominio configurado en `config/_default/config.toml` solo actúa como fallback para desarrollo local.
+El sitio se despliega en **Cloudflare Pages** automáticamente en cada push:
 
-### Cloudflare Pages
+- `main` → producción en https://blog-cmj.pages.dev/
+- cualquier otra rama → preview deploy
 
-Conectado vía dashboard. Configuración:
+La configuración exacta del dashboard (build command, env vars, submódulos)
+está documentada en [`docs/CLOUDFLARE.md`](docs/CLOUDFLARE.md). Tratar ese
+archivo como fuente de verdad: si cambias algo en el dashboard, actualízalo
+en el mismo PR.
 
-| Parámetro | Valor |
-|---|---|
-| Build command | `hugo --minify -b $CF_PAGES_URL` |
-| Output directory | `public` |
-| `HUGO_VERSION` (env var) | `0.160.0` |
+### Previews por rama / PR
 
-El flag `-b $CF_PAGES_URL` aprovecha la variable inyectada por Cloudflare para que la `baseURL` sea dinámica — funciona tanto en producción como en preview deployments de branches/PRs.
+- Cualquier push a una rama distinta de `main` genera un preview en
+  `https://<commit-sha-prefix>.blog-cmj.pages.dev/` (per-commit) y un alias
+  estable `https://<branch-slug>.blog-cmj.pages.dev/`.
+- Cloudflare comenta automáticamente cada PR con el enlace del preview.
+- Convención: **revisar el preview antes de mergear**, sobre todo cuando el
+  cambio toca layouts, config o assets.
 
-> **Submódulos:** Cloudflare Pages clona los submódulos automáticamente si están registrados en `.gitmodules` y son públicos (es el caso del tema Congo).
+### CI
 
-### GitHub Pages
+`.github/workflows/ci.yaml` corre en cada PR contra `main` y en cada push a
+`main`. Hace:
 
-Configurado vía GitHub Actions en `.github/workflows/hugo.yaml`. Sigue la [guía oficial de Hugo para GitHub Pages](https://gohugo.io/host-and-deploy/host-on-github-pages/). El workflow:
+1. Build con `--panicOnWarning` (idéntico al local).
+2. Link check con [lychee](https://github.com/lycheeverse/lychee) en modo
+   `--offline` sobre `public/` (solo enlaces internos).
 
-- Se dispara en cada push a `main` (y manualmente vía `workflow_dispatch`).
-- Sobrescribe la `baseURL` con `${{ steps.pages.outputs.base_url }}` (resuelve a `https://edunavata.github.io/Blog/`).
-- El job `deploy` está gateado con `if: github.ref == 'refs/heads/main'` para que builds en otras ramas (vía `workflow_dispatch`) no publiquen en producción.
+CI **no despliega** — el deploy lo hace Cloudflare Pages. CI es la puerta de
+calidad antes de que CF Pages cree el deploy real.
 
-Para que funcione, en GitHub: **Settings → Pages → Source = GitHub Actions**.
+## Actualizar el tema Congo
+
+```bash
+cd themes/congo
+git fetch origin
+git checkout <tag-o-rama>     # ej. v2.14
+cd ../..
+hugo --gc --minify --panicOnWarning -b "https://blog-cmj.pages.dev/"
+# Si OK:
+git add themes/congo
+git commit -m "chore(theme): bump Congo to vX.Y.Z"
+```
+
+### Overrides activos en `layouts/`
+
+- `_partials/functions/warnings.html` — fix de compat con Hugo ≥ 0.160
+  (Congo accede a `.Site.Author`, que ya no existe en versiones recientes).
+- `_partials/sharing-links.html` — usa `hugo.Data.sharing` en lugar de
+  `site.Data.sharing` (deprecado en 0.156).
+- `_partials/translations.html` — usa `hugo.Languages` en lugar de
+  `site.Languages` (deprecado en 0.156).
+
+Cuando Congo publique una versión que arregle estos puntos upstream,
+elimina el override correspondiente y verifica el build con
+`--panicOnWarning`.
+
+### Cuándo NO tocar `themes/congo/`
+
+Nunca edites archivos dentro de `themes/congo/` directamente — es un
+submódulo y los cambios se perderían en el siguiente bump. Toda
+personalización va en `layouts/` o `assets/` del proyecto raíz, donde Hugo
+los prioriza sobre los del tema.
 
 ## Personalización
 
-- **Foto de autor:** coloca una imagen cuadrada (mínimo 256×256px) en `assets/img/author.jpg` y descomenta la línea `# image = "img/author.jpg"` en `config/_default/languages.es.toml` y `languages.en.toml`.
-- **Color scheme:** cambia `colorScheme` en `config/_default/params.toml`. Opciones: `ocean`, `forest`, `fire`, `slate`, `sandstone`, `terminal`.
-- **Nombre y bio:** edita `config/_default/languages.es.toml` y `languages.en.toml`.
-- **Nunca edites** archivos dentro de `themes/congo/` — usa overrides en `layouts/` (ya hay uno: `layouts/_partials/functions/warnings.html`, fix de compatibilidad con Hugo ≥ 0.160).
+- **Foto de autor:** coloca una imagen cuadrada (mínimo 256×256px) en
+  `assets/img/author.jpg` y descomenta la línea `# image = "img/author.jpg"`
+  en `config/_default/languages.es.toml` y `languages.en.toml`.
+- **Color scheme:** cambia `colorScheme` en `config/_default/params.toml`.
+  Opciones: `ocean`, `forest`, `fire`, `slate`, `sandstone`, `terminal`.
+- **Nombre y bio:** edita `config/_default/languages.es.toml` y
+  `languages.en.toml`.
 
 ## Licencia
 
