@@ -1,89 +1,50 @@
-# -- Parámetros del tema Congo --
-colorScheme = "ocean"
-defaultAppearance = "dark"
-autoSwitchAppearance = true
-enableSearch = true
-enableCodeCopy = true
-enableImageLazyLoading = true
+# -- Parámetros del tema Hextra --
+# Ref: https://github.com/imfing/hextra
 
-mainSections = ["posts"]
+[navbar]
+  displayTitle = true
+  displayLogo = false
 
-[header]
-  layout = "basic"
+[theme]
+  default = "dark"
+  displayToggle = true
+
+[search]
+  enable = true
+  type = "flexsearch"
+  [search.flexsearch]
+    index = "content"
+    tokenize = "forward"
+
+[toc]
+  displayTags = true
+
+[blog.list]
+  displayTags = true
+  sortBy = "date"
+  sortOrder = "desc"
+  pagerSize = 10
+
+[blog.article]
+  displayPagination = true
+
+[archives]
+  section = "posts"
+  dateFormat = "2 Jan"
+
+[highlight.copy]
+  enable = true
+  display = "hover"
+
+[page]
+  width = "normal"
+
+[imageZoom]
+  enable = true
 
 [footer]
-  showMenu = true
-  showCopyright = true
-  showThemeAttribution = false
-  showAppearanceSwitcher = true
-  showScrollToTop = true
+  displayCopyright = true
+  displayPoweredBy = false
 
-[homepage]
-  layout = "profile"
-  homepageImage = ""
-  showRecent = true
-  showRecentItems = 6
-  showMoreLink = true
-  showMoreLinkDest = "/posts"
-  cardView = true
-  cardViewScreenWidth = false
-  layoutBackgroundBlur = true
-
-[article]
-  showDate = true
-  showViews = false
-  showLikes = false
-  showDateOnlyInArticle = false
-  showDateUpdated = true
-  showAuthor = true
-  showHero = true
-  heroStyle = "background"
-  showBreadcrumbs = true
-  showDraftLabel = true
-  showEdit = false
-  showHeadingAnchors = true
-  showPagination = true
-  invertPagination = false
-  showReadingTime = true
-  showTableOfContents = true
-  showRelatedContent = true
-  showTaxonomies = true
-  showAuthorsBadges = false
-  showWordCount = false
-  showSummary = true
-  sharingLinks = ["x-twitter", "linkedin", "reddit", "whatsapp", "telegram", "email"]
-
-[list]
-  showHero = false
-  heroStyle = "background"
-  layoutBackgroundBlur = true
-  showBreadcrumbs = false
-  showSummary = true
-  showViews = false
-  showLikes = false
-  showTableOfContents = false
-  showCards = true
-  groupByYear = true
-  cardView = true
-  cardViewScreenWidth = false
-
-[taxonomy]
-  showTermCount = true
-  showHero = false
-  heroStyle = "background"
-  showBreadcrumbs = false
-  showViews = false
-  showLikes = false
-  showTableOfContents = false
-  cardView = false
-
-[term]
-  showHero = false
-  heroStyle = "background"
-  showBreadcrumbs = false
-  showViews = false
-  showLikes = false
-  showTableOfContents = false
-  groupByYear = false
-  cardView = true
-  cardViewScreenWidth = false
+[comments]
+  enable = false
