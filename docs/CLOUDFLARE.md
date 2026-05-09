@@ -28,13 +28,17 @@ Configuradas tanto para **Production** como **Preview**:
 |----------------|------------|------------------------------------------------|
 | `HUGO_VERSION` | `0.160.0`  | Debe coincidir con la versión de Hugo en CI.   |
 
-Si subes la versión de Hugo, actualiza los tres sitios a la vez:
-`.github/workflows/ci.yaml` (`HUGO_VERSION`), esta variable en Production y
-esta variable en Preview.
+El repositorio también incluye `.tool-versions` con `hugo 0.160.0`. Cloudflare
+Pages lo detecta antes de ejecutar el build y lo usa para instalar Hugo en el
+entorno de build.
 
-No añadir `.tool-versions` para Hugo en este repo: Cloudflare Pages lo detecta
-antes del build y puede intentar instalar Hugo con `asdf-hugo` en vez de usar
-`HUGO_VERSION`.
+Si subes la versión de Hugo, actualiza cuatro sitios a la vez:
+`.tool-versions`, `.github/workflows/ci.yaml` (`HUGO_VERSION`), esta variable
+en Production y esta variable en Preview.
+
+No usar prefijos como `extended-0.160.0` en `.tool-versions`: el plugin de
+Cloudflare/asdf genera una URL de descarga inválida. El formato correcto es
+`hugo 0.160.0`.
 
 ## Submódulos
 

@@ -16,8 +16,9 @@ Pages.
 
 ## Requisitos
 
-Hugo 0.160.0. Cloudflare y CI fijan esta versión con `HUGO_VERSION`.
-Para ejecutarlo localmente con [`mise`](https://mise.jdx.dev/):
+Hugo 0.160.0. La versión está fijada en `.tool-versions` para que
+Cloudflare Pages instale el binario correcto antes de ejecutar el build. Para
+ejecutarlo localmente con [`mise`](https://mise.jdx.dev/):
 
 ```bash
 mise x hugo@0.160.0 -- hugo version
@@ -49,6 +50,7 @@ El blog estará disponible en:
 ```
 ├── .github/workflows/
 │   └── ci.yaml              # Build estricto + link check en PRs y main
+├── .tool-versions           # Pin de Hugo para Cloudflare/mise/asdf
 ├── config/_default/
 │   ├── config.toml          # Configuración base
 │   ├── languages.es.toml    # Parámetros idioma español
