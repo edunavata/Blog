@@ -2,6 +2,7 @@
 title: "How I built this blog with Hugo and Congo"
 date: 2025-01-20
 draft: false
+slug: "how-i-built-this-blog"
 description: "Quick guide on how I set up Hugo with the Congo theme and deployed to Cloudflare Pages."
 summary: "Quick guide on how I set up Hugo with the Congo theme and deployed to Cloudflare Pages."
 tags: ["hugo", "tutorial", "cloudflare"]

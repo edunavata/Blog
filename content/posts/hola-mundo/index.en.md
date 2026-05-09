@@ -2,6 +2,7 @@
 title: "Hello World: My first post"
 date: 2025-01-15
 draft: false
+slug: "hello-world"
 description: "The classic first article where I explain why I'm starting this blog."
 summary: "The classic first article where I explain why I'm starting this blog."
 tags: ["personal", "meta"]

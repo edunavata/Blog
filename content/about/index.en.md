@@ -1,6 +1,7 @@
 ---
 title: "About me"
 description: "Get to know me a little better."
+slug: "about"
 layout: "simple"
 ---
 

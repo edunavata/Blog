@@ -6,4 +6,5 @@ slug: "{{ .File.ContentBaseName }}"
 description: ""
 summary: ""
 tags: []
+categories: []
 ---
