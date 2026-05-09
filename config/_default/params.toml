@@ -52,3 +52,7 @@ displayUpdatedAuthor = false
 
 [comments]
   enable = false
+
+[social]
+  github = ""
+  email = ""

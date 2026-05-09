@@ -1,4 +1,580 @@
 /* =============================================================
+   Design system — tokens, tipografía y componentes del mockup
+   ============================================================= */
+
+/* ─── Tokens de color ─── */
+
+:root {
+  --blog-bg: #fafaf9;
+  --blog-surface: #ffffff;
+  --blog-surface-2: #f5f5f4;
+  --blog-border: #e7e5e4;
+  --blog-border-strong: #d6d3d1;
+  --blog-text: #111111;
+  --blog-text-2: #525252;
+  --blog-text-3: #8a8a8a;
+  --blog-accent: oklch(0.52 0.15 235);
+  --blog-accent-soft: oklch(0.52 0.15 235 / 0.08);
+  --blog-callout-bg: oklch(0.52 0.15 235 / 0.05);
+  --blog-callout-bd: oklch(0.52 0.15 235 / 0.25);
+  --blog-code-bg: #f6f5f2;
+}
+
+.dark {
+  --blog-bg: #0a0a0a;
+  --blog-surface: #111111;
+  --blog-surface-2: #161616;
+  --blog-border: #1e1e1e;
+  --blog-border-strong: #2a2a2a;
+  --blog-text: #e8e8e8;
+  --blog-text-2: #a1a1a1;
+  --blog-text-3: #6b6b6b;
+  --blog-accent: oklch(0.72 0.13 235);
+  --blog-accent-soft: oklch(0.72 0.13 235 / 0.12);
+  --blog-callout-bg: oklch(0.72 0.13 235 / 0.07);
+  --blog-callout-bd: oklch(0.72 0.13 235 / 0.35);
+  --blog-code-bg: #0e0e0e;
+}
+
+/* ─── Base global ─── */
+
+body {
+  font-family: 'Geist', system-ui, sans-serif;
+  background: var(--blog-bg);
+  color: var(--blog-text);
+}
+
+/* ─── Navbar ─── */
+
+.blog-nav {
+  border-bottom: 1px solid var(--blog-border);
+  background: var(--blog-bg);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  width: 100%;
+}
+
+.blog-nav-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: var(--navbar-height, 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.blog-brand {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--blog-text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.blog-brand:hover { opacity: 0.8; }
+
+.blog-brand-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--blog-accent);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.blog-nav-center {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.blog-nav-link {
+  color: var(--blog-text-2);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 150ms ease;
+  white-space: nowrap;
+}
+
+.blog-nav-link:hover { color: var(--blog-text); }
+.blog-nav-link.active { color: var(--blog-text); font-weight: 500; }
+
+.blog-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.blog-hamburger {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--blog-text-2);
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.blog-hamburger:hover { color: var(--blog-text); }
+
+@media (max-width: 767px) {
+  .blog-nav-center { display: none; }
+  .blog-hamburger { display: flex; align-items: center; }
+}
+
+@media (max-width: 480px) {
+  .blog-nav-inner { padding: 0 16px; }
+}
+
+/* ─── Article layout — 2 columnas ─── */
+
+.blog-article-wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 56px 32px 96px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 72px;
+  align-items: start;
+}
+
+.blog-article {
+  min-width: 0;
+  max-width: 720px;
+}
+
+@media (max-width: 1024px) {
+  .blog-article-wrap {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .blog-article { max-width: 100%; }
+}
+
+@media (max-width: 640px) {
+  .blog-article-wrap { padding: 32px 20px 64px; }
+}
+
+/* ─── Breadcrumb ─── */
+
+.blog-breadcrumb {
+  font-size: 13px;
+  color: var(--blog-text-3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  flex-wrap: wrap;
+}
+
+.blog-breadcrumb a { color: var(--blog-text-2); text-decoration: none; }
+.blog-breadcrumb a:hover { color: var(--blog-text); }
+.blog-breadcrumb-sep { opacity: 0.4; }
+.blog-breadcrumb-current { color: var(--blog-text-3); }
+
+/* ─── Tags ─── */
+
+.blog-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.blog-tag {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--blog-text-2);
+  padding: 4px 10px;
+  border: 1px solid var(--blog-border);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.blog-tag:hover {
+  color: var(--blog-accent);
+  border-color: var(--blog-callout-bd);
+}
+
+/* ─── Título del artículo ─── */
+
+.blog-title {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0 0 22px;
+  color: var(--blog-text);
+  text-wrap: balance;
+}
+
+/* ─── Meta bar ─── */
+
+.blog-meta-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--blog-text-3);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--blog-border);
+}
+
+.blog-meta-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--blog-text-3);
+  opacity: 0.6;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.blog-meta-updated { color: var(--blog-accent); }
+
+/* ─── Imagen de portada ─── */
+
+.blog-cover {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  border: 1px solid var(--blog-border);
+  margin-bottom: 48px;
+  overflow: hidden;
+}
+
+.blog-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ─── Tipografía del cuerpo del artículo ─── */
+
+.blog-body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.72;
+  color: var(--blog-text);
+}
+
+.blog-body > * + * { margin-top: 1.4em; }
+.blog-body p { margin: 0; }
+
+.blog-body h2 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin: 2.2em 0 0.6em;
+  scroll-margin-top: 80px;
+  color: var(--blog-text);
+}
+
+.blog-body h3 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.3;
+  margin: 1.8em 0 0.4em;
+  scroll-margin-top: 80px;
+  color: var(--blog-text);
+}
+
+.blog-body h4 {
+  font-family: 'Geist', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  margin: 1.4em 0 0.3em;
+  color: var(--blog-text);
+}
+
+.blog-body strong { color: var(--blog-text); font-weight: 600; }
+.blog-body em { color: var(--blog-text-2); }
+
+.blog-body a {
+  color: var(--blog-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in oklch, var(--blog-accent), transparent 60%);
+}
+
+.blog-body a:hover { text-decoration-color: var(--blog-accent); }
+
+.blog-body :is(ul, ol) { padding-left: 1.4em; margin: 0; }
+.blog-body li { margin: 0.4em 0; }
+.blog-body :is(ul, ol) :is(ul, ol) { margin-top: 0.4em; }
+
+/* código inline */
+.blog-body :not(pre) > code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.88em;
+  padding: 2px 6px;
+  background: var(--blog-surface-2);
+  border: 1px solid var(--blog-border);
+  border-radius: 4px;
+  color: var(--blog-text);
+}
+
+/* Tablas */
+.blog-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 15px;
+  margin: 0;
+}
+
+.blog-body thead th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--blog-text-2);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--blog-border-strong);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.blog-body tbody td {
+  padding: 12px;
+  border-bottom: 1px solid var(--blog-border);
+  color: var(--blog-text);
+}
+
+.blog-body tbody tr:last-child td { border-bottom: none; }
+
+/* Figuras */
+.blog-body figure { margin: 0; }
+
+.blog-body figcaption {
+  text-align: center;
+  margin-top: 12px;
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 13px;
+  color: var(--blog-text-3);
+}
+
+/* ─── Artículos relacionados ─── */
+
+.blog-related {
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid var(--blog-border);
+}
+
+.blog-related-head {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blog-text-3);
+  margin-bottom: 20px;
+}
+
+.blog-related-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .blog-related-grid { grid-template-columns: 1fr; }
+}
+
+.blog-related-card {
+  display: block;
+  padding: 20px 22px;
+  border: 1px solid var(--blog-border);
+  border-radius: 10px;
+  background: transparent;
+  text-decoration: none;
+  color: var(--blog-text);
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+.blog-related-card:hover {
+  border-color: var(--blog-border-strong);
+  background: var(--blog-surface);
+}
+
+.blog-related-tag {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--blog-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.blog-related-card h4 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 8px;
+  color: var(--blog-text);
+}
+
+.blog-related-card p {
+  font-size: 13.5px;
+  color: var(--blog-text-2);
+  margin: 0;
+  line-height: 1.55;
+  font-family: 'Geist', system-ui, sans-serif;
+}
+
+/* ─── Sidebar ─── */
+
+.blog-sidebar {
+  position: sticky;
+  top: calc(var(--navbar-height, 4rem) + 32px);
+  align-self: start;
+  font-size: 13.5px;
+  color: var(--blog-text-2);
+  max-height: calc(100vh - var(--navbar-height, 4rem) - 64px);
+  overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+  .blog-sidebar {
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+  }
+}
+
+.blog-sb-section { margin-bottom: 36px; }
+
+.blog-sb-head {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blog-text-3);
+  margin-bottom: 14px;
+}
+
+/* TOC — estilos para el HTML generado por Hugo (.TableOfContents) */
+
+.blog-toc nav#TableOfContents { border-left: 1px solid var(--blog-border); }
+
+.blog-toc nav#TableOfContents ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.blog-toc nav#TableOfContents > ul > li > a {
+  display: block;
+  padding: 6px 0 6px 14px;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  color: var(--blog-text-2);
+  text-decoration: none;
+  font-size: 13.5px;
+  line-height: 1.45;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.blog-toc nav#TableOfContents > ul > li > ul > li > a {
+  display: block;
+  padding: 5px 0 5px 26px;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  color: var(--blog-text-2);
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 1.45;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.blog-toc nav#TableOfContents li a:hover { color: var(--blog-text); }
+
+/* ─── Share buttons ─── */
+
+.blog-share-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.blog-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--blog-border);
+  background: transparent;
+  color: var(--blog-text-2);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Geist', system-ui, sans-serif;
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.blog-share-btn:hover {
+  color: var(--blog-text);
+  border-color: var(--blog-border-strong);
+}
+
+.blog-share-btn.ok {
+  color: var(--blog-accent);
+  border-color: var(--blog-callout-bd);
+}
+
+/* ─── Footer ─── */
+
+.blog-footer {
+  border-top: 1px solid var(--blog-border);
+  padding: 32px;
+  background: var(--blog-bg);
+}
+
+.blog-footer-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: var(--blog-text-3);
+  font-size: 13px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+.blog-footer-links { display: flex; }
+
+.blog-footer-links a {
+  color: var(--blog-text-2);
+  text-decoration: none;
+  margin-left: 16px;
+}
+
+.blog-footer-links a:hover { color: var(--blog-text); }
+
+/* =============================================================
    Leer progress bar — CSS-only con scroll-driven animations
    Ref: https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline
    ============================================================= */

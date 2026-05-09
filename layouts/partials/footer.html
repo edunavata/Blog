@@ -1,0 +1,18 @@
+{{- $copyright := (T "copyright") | default (printf "© %d Mi Blog." now.Year) -}}
+
+<footer class="blog-footer">
+  <div class="blog-footer-inner">
+    <span>{{ $copyright | markdownify }}</span>
+    <div class="blog-footer-links">
+      {{- with site.Home.OutputFormats.Get "RSS" -}}
+        <a href="{{ .RelPermalink }}">RSS</a>
+      {{- end -}}
+      {{- with site.Params.social.github -}}
+        <a href="{{ . }}" target="_blank" rel="noreferrer noopener">GitHub</a>
+      {{- end -}}
+      {{- with site.Params.social.email -}}
+        <a href="mailto:{{ . }}">Email</a>
+      {{- end -}}
+    </div>
+  </div>
+</footer>
