@@ -1,8 +1,16 @@
 ---
-title: "Welcome"
-description: "Personal blog about technology and development."
+title: "My Blog"
+description: "Personal blog about technology, web development and productivity."
+layout: hextra-home
+heroEyebrow: "blog — since 2025"
+heroTitle: "Technical notes, *without noise*, in Spanish."
+heroLead: "I write about the tools I use daily — Hugo, Cloudflare, minimal infrastructure, Linux, scripts that save time. No paywalls, no trackers."
+ctaPrimary:
+  text: "Read the blog"
+  url: "/en/posts/"
+ctaSecondary:
+  text: "About me"
+  url: "/en/about/"
+aboutText: "If you want to contact me, write to [my email](mailto:edunavata@gmail.com) or find me on [GitHub](https://github.com/edunavata)."
+avatarURL: ""
 ---
-
-Hi, I'm a developer. This is my little corner of the internet where I write about technology, web development and anything I find interesting.
-
-Take a look at the [latest posts](/en/posts/) or get to know me on the [About](/en/about/) page.

@@ -1,1 +1,11 @@
 copyright: "© 2026 Mi Blog."
+minuteRead:
+  one: "{{ . }} min read"
+  other: "{{ . }} min read"
+featured: "Featured"
+latestPosts: "Latest articles"
+viewAll: "View all"
+readArticle: "Read article"
+exploreByCategory: "Explore by category"
+allCategories: "All"
+aboutMe: "About me"

@@ -5,8 +5,12 @@
   displayTitle = true
   displayLogo = false
 
+externalLinkDecoration = true
+displayUpdatedDate = true
+displayUpdatedAuthor = false
+
 [theme]
-  default = "dark"
+  default = "system"
   displayToggle = true
 
 [search]
@@ -48,3 +52,7 @@
 
 [comments]
   enable = false
+
+[social]
+  github = ""
+  email = ""

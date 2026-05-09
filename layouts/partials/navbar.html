@@ -1,0 +1,48 @@
+{{- $page := . -}}
+
+<nav class="blog-nav" aria-label="Navegación principal">
+  <div class="blog-nav-inner">
+
+    {{/* Brand */}}
+    <a class="blog-brand" href="{{ site.Home.RelPermalink }}">
+      <span class="blog-brand-dot" aria-hidden="true"></span>
+      <span>~/{{ site.Params.brandName | default site.Title }}</span>
+    </a>
+
+    {{/* Nav links — desktop */}}
+    <div class="blog-nav-center" role="list">
+      {{- range site.Menus.main -}}
+        {{- if not (in (slice "search" "theme-toggle" "language-switch") .Params.type) -}}
+          {{- $link := .URL -}}
+          {{- with .PageRef -}}
+            {{- if hasPrefix . "/" -}}
+              {{- $link = relLangURL (strings.TrimPrefix "/" .) -}}
+            {{- end -}}
+          {{- end -}}
+          {{- $external := strings.HasPrefix $link "http" -}}
+          {{- $active := or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) -}}
+          <a href="{{ $link }}"
+             class="blog-nav-link{{ if $active }} active{{ end }}"
+             role="listitem"
+             {{ if $external }}target="_blank" rel="noreferrer"{{ end }}>
+            {{- .Name -}}
+          </a>
+        {{- end -}}
+      {{- end -}}
+    </div>
+
+    {{/* Controles derecha: theme toggle */}}
+    <div class="blog-nav-right">
+      {{ partial "theme-toggle.html" (dict "hideLabel" true "iconHeight" 16 "location" "top" "class" "hx:p-2 hx:text-current hx:rounded-md hx:hover:bg-gray-100 hx:dark:hover:bg-neutral-800") }}
+    </div>
+
+    {{/* Hamburger — mobile */}}
+    <button type="button"
+            aria-label="{{ (T "menu") | default "Menú" }}"
+            aria-expanded="false"
+            class="hextra-hamburger-menu blog-hamburger">
+      {{- partial "utils/icon.html" (dict "name" "hamburger-menu" "attributes" "height=24") -}}
+    </button>
+
+  </div>
+</nav>

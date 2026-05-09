@@ -1,0 +1,114 @@
+{{ define "main" }}
+
+<main class="about-wrap" id="content">
+
+  {{/* ── HERO ── */}}
+  <section class="about-hero">
+    {{ with .Params.avatarURL }}
+      <img class="about-avatar-lg"
+           src="{{ . }}"
+           alt="{{ $.Params.heroName }}"
+           width="140" height="140"
+           loading="eager">
+    {{ else }}
+      <div class="about-avatar-placeholder-lg" aria-hidden="true"></div>
+    {{ end }}
+    <div>
+      <div class="about-eyebrow">
+        <span class="about-status-dot" aria-hidden="true"></span>
+        <span>{{ .Params.heroEyebrow }}</span>
+      </div>
+      <h1 class="about-name">
+        {{ .Params.heroName }}
+        <em>— {{ .Params.heroTagline }}</em>
+      </h1>
+      {{ with .Params.heroRole }}
+        <p class="about-role">{{ . }}</p>
+      {{ end }}
+    </div>
+  </section>
+
+  {{/* ── INTRO — párrafos desde front matter ── */}}
+  {{ with .Params.introParagraphs }}
+    <section class="about-intro">
+      {{ range . }}<p>{{ . | markdownify }}</p>{{ end }}
+    </section>
+  {{ end }}
+
+  {{/* ── AHORA — timeline desde data/timeline.yaml ── */}}
+  {{ with hugo.Data.timeline }}
+    <section class="about-section">
+      <div class="about-section-head">Ahora</div>
+      <div class="about-now-list">
+        {{ range . }}
+          <div class="now-row">
+            <span class="now-when">{{ .when }}</span>
+            <div class="now-what">{{ .what | markdownify }}</div>
+          </div>
+        {{ end }}
+      </div>
+    </section>
+  {{ end }}
+
+  {{/* ── SETUP — tabla desde data/stack.yaml ── */}}
+  {{ with hugo.Data.stack }}
+    <section class="about-section">
+      <div class="about-section-head">Setup</div>
+      <div class="about-stack-grid">
+        {{ range . }}
+          <div class="stack-row">
+            <span class="stack-key">{{ .key }}</span>
+            <span class="stack-val">
+              {{ .val }}
+              {{ with .detail }}<span class="stack-detail">{{ . }}</span>{{ end }}
+            </span>
+          </div>
+        {{ end }}
+      </div>
+    </section>
+  {{ end }}
+
+  {{/* ── ESCRIBO SOBRE — desde front matter ── */}}
+  {{ with .Params.topics }}
+    <section class="about-section">
+      <div class="about-section-head">Escribo sobre</div>
+      <div class="about-topics">
+        {{ range . }}
+          <a class="about-topic" href="{{ .url }}">#{{ .name }}</a>
+        {{ end }}
+      </div>
+    </section>
+  {{ end }}
+
+  {{/* ── CONTACTO — cards desde data/contact.yaml ── */}}
+  {{ with hugo.Data.contact }}
+    <section class="about-section about-section-last">
+      <div class="about-section-head">Contacto</div>
+      <div class="about-contact-grid">
+        {{ range . }}
+          <a class="contact-card"
+             href="{{ .href }}"
+             {{ if strings.HasPrefix .href "http" }}target="_blank" rel="noreferrer noopener"{{ end }}>
+            <span class="cc-ic" aria-hidden="true">
+              {{- if eq .icon "email" -}}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              {{- else if eq .icon "github" -}}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57v-2.07c-3.345.72-4.05-1.605-4.05-1.605-.54-1.395-1.335-1.755-1.335-1.755-1.08-.735.09-.72.09-.72 1.2.09 1.83 1.23 1.83 1.23 1.065 1.83 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.475-1.335-5.475-5.94 0-1.32.465-2.385 1.23-3.225-.12-.3-.54-1.515.12-3.165 0 0 1.005-.33 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.865.12 3.165.765.84 1.23 1.905 1.23 3.225 0 4.62-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22v3.285c0 .315.225.69.825.57C20.565 21.795 24 17.31 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              {{- else if eq .icon "rss" -}}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.5" fill="currentColor"/></svg>
+              {{- else if eq .icon "x" -}}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              {{- end -}}
+            </span>
+            <span class="cc-meta">
+              <span class="cc-label">{{ .label }}</span>
+              <span class="cc-value">{{ .value }}</span>
+            </span>
+          </a>
+        {{ end }}
+      </div>
+    </section>
+  {{ end }}
+
+</main>
+{{ end }}

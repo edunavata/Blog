@@ -1,10 +1,10 @@
 ---
-title: "How I built this blog with Hugo and Congo"
+title: "How I built this blog with Hugo and Hextra"
 date: 2025-01-20
 draft: false
 slug: "how-i-built-this-blog"
-description: "Quick guide on how I set up Hugo with the Congo theme and deployed to Cloudflare Pages."
-summary: "Quick guide on how I set up Hugo with the Congo theme and deployed to Cloudflare Pages."
+description: "Quick guide on how I set up Hugo with the Hextra theme and deployed to Cloudflare Pages."
+summary: "Quick guide on how I set up Hugo with the Hextra theme and deployed to Cloudflare Pages."
 tags: ["hugo", "tutorial", "cloudflare"]
 categories: ["tech"]
 ---
@@ -14,16 +14,16 @@ categories: ["tech"]
 This blog is built with:
 
 - **Hugo** as a static site generator
-- **Congo** as the theme
+- **Hextra** as the theme
 - **Cloudflare Pages** for deployment
 
 ### Why Hugo?
 
 Speed. Hugo compiles hundreds of pages in milliseconds. It doesn't need Node.js, it has no heavy dependencies. It's a binary that just works.
 
-### Why Congo?
+### Why Hextra?
 
-It's clean, modern, and has native bilingual support. It also has dark mode, built-in search and a very organized configuration system.
+It's clean, modern and has native bilingual support. It also includes dark mode, Flexsearch integration, automatic table of contents, image zoom and a very organized configuration system. All out-of-the-box.
 
 ### Deployment
 
