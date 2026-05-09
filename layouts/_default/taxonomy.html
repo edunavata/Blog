@@ -9,7 +9,7 @@
     </header>
     <div class="list-posts">
       {{ range .Pages }}
-        <a class="list-item" href="{{ .RelPermalink }}" data-tags="{{ delimit .Params.tags "," }}">
+        <a class="list-item" href="{{ .RelPermalink }}"{{ with .Params.tags}} data-tags="{{ delimit . "," }}"{{ end }}>
           <h2 class="li-title">{{ .Title }}</h2>
           <p class="li-desc">{{ .Description | default (.Summary | plainify | truncate 200) }}</p>
           <div class="li-meta">
