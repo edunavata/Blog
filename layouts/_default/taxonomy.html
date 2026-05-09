@@ -9,7 +9,7 @@
     </header>
     <div class="list-posts">
       {{ range .Pages }}
-        <a class="list-item" href="{{ .RelPermalink }}"{{ with .Params.tags}} data-tags="{{ delimit . "," }}"{{ end }}>
+        <a class="list-item" href="{{ .RelPermalink }}"{{ with .Params.tags}}{{ if . }} data-tags="{{ delimit . "," }}"{{ end }}{{ end }}>
           <h2 class="li-title">{{ .Title }}</h2>
           <p class="li-desc">{{ .Description | default (.Summary | plainify | truncate 200) }}</p>
           <div class="li-meta">
@@ -35,7 +35,7 @@
   {{/* ── Switcher entre taxonomías ── */}}
   <nav class="tax-tabs" aria-label="Taxonomías">
     {{- range $plural, $taxTerms := site.Taxonomies -}}
-      {{- with site.GetPage (printf "/%s" $plural) -}}
+      {{-with site.GetPage (printf "/%s" $plural) -}}
         {{- $active := eq $plural $.Data.Plural -}}
         <a class="tax-tab{{ if $active }} active{{ end }}"
            href="{{ .RelPermalink }}"
@@ -81,7 +81,7 @@
   var TERMS = [
     {{- range .Data.Terms.ByCount -}}
       {{- $url := "" -}}
-      {{- with site.GetPage (printf "/%s/%s" $.Data.Plural (.Name | urlize)) -}}
+      {{-with site.GetPage (printf "/%s/%s" $.Data.Plural (.Name | urlize)) -}}
         {{- $url = .RelPermalink -}}
       {{- end -}}
       { name: {{ .Name | jsonify }}, count: {{ .Count }}, url: {{ $url | jsonify }} },
