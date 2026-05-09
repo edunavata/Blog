@@ -48,5 +48,5 @@ jobs:
       - name: Link check (lychee, offline)
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --no-progress --offline ./public
+          args: --no-progress --offline --root-dir ${{ github.workspace }}/public "./public/**/*.html"
           fail: true
