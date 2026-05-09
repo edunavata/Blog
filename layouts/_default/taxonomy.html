@@ -76,17 +76,18 @@
 
 </main>
 
+{{- $terms := slice -}}
+{{- range .Data.Terms.ByCount -}}
+  {{- $url := "" -}}
+  {{- with site.GetPage (printf "/%s/%s" $.Data.Plural (.Name | urlize)) -}}
+    {{- $url = .RelPermalink -}}
+  {{- end -}}
+  {{- $terms = $terms | append (dict "name" .Name "count" .Count "url" $url) -}}
+{{- end -}}
+
 <script>
 (function () {
-  var TERMS = [
-    {{- range .Data.Terms.ByCount -}}
-      {{- $url := "" -}}
-      {{- with site.GetPage (printf "/%s/%s" $.Data.Plural (.Name | urlize)) -}}
-        {{- $url = .RelPermalink -}}
-      {{- end -}}
-      { name: {{ .Name | jsonify }}, count: {{ .Count }}, url: {{ $url | jsonify }} },
-    {{- end -}}
-  ];
+  var TERMS = {{ $terms | jsonify | safeJS }};
 
   var alphaEl = document.getElementById('tax-alpha');
   var freqEl  = document.getElementById('tax-freq');
