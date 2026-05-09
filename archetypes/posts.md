@@ -7,4 +7,7 @@ description: ""
 summary: ""
 tags: []
 categories: []
+cover:
+  image: ""
+  alt: ""
 ---
