@@ -1,0 +1,40 @@
+{{ define "main" }}
+
+<main class="list-wrap" id="content">
+
+  <header class="list-head">
+    <div class="list-eyebrow">/ {{ .Data.Singular }}</div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="list-lead">{{ . }}</p>{{ end }}
+    <div class="list-meta-counts">
+      <span>{{ len .Pages }}</span> artículos
+    </div>
+  </header>
+
+  <div class="list-posts">
+    {{ range .Pages }}
+      <a class="list-item" href="{{ .RelPermalink }}" data-tags="{{ delimit .Params.tags "," }}">
+        {{- with .GetTerms "tags" -}}
+          <div class="list-item-tags">
+            {{- range . -}}<span class="li-tag">#{{ .LinkTitle }}</span>{{- end -}}
+          </div>
+        {{- end -}}
+        <h2 class="li-title">{{ .Title }}</h2>
+        <p class="li-desc">{{ .Description | default (.Summary | plainify | truncate 200) }}</p>
+        <div class="li-meta">
+          {{- with .Date -}}<span>{{ time.Format "2 January 2006" . }}</span>{{- end -}}
+          {{- with .ReadingTime -}}
+            <span class="li-dot" aria-hidden="true"></span>
+            <span>{{ i18n "minuteRead" . }}</span>
+          {{- end -}}
+          <span class="li-read" aria-hidden="true">
+            {{ i18n "readArticle" | default "Leer" }}
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+    {{ end }}
+  </div>
+
+</main>
+{{ end }}
