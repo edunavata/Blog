@@ -14,7 +14,7 @@ displayUpdatedAuthor = false
   displayToggle = true
 
 [search]
-  enable = true
+  enable = false
   type = "flexsearch"
   [search.flexsearch]
     index = "content"
