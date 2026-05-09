@@ -1,50 +1,63 @@
-# -- Parámetros del tema Hextra --
-# Ref: https://github.com/imfing/hextra
+# -- Parámetros del tema Blowfish --
+# Ref: https://blowfish.page/docs/configuration/
 
-[navbar]
-  displayTitle = true
-  displayLogo = false
+colorScheme = "ocean"
+defaultAppearance = "dark"
+autoSwitchAppearance = true
 
-[theme]
-  default = "dark"
-  displayToggle = true
+enableSearch = true
+enableCodeCopy = true
+enableStructuredBreadcrumbs = true
 
-[search]
-  enable = true
-  type = "flexsearch"
-  [search.flexsearch]
-    index = "content"
-    tokenize = "forward"
+mainSections = ["posts"]
 
-[toc]
-  displayTags = true
+disableImageOptimization = false
+highlightCurrentMenuArea = true
+smartTOC = true
+smartTOCHideUnfocusedChildren = false
 
-[blog.list]
-  displayTags = true
-  sortBy = "date"
-  sortOrder = "desc"
-  pagerSize = 10
-
-[blog.article]
-  displayPagination = true
-
-[archives]
-  section = "posts"
-  dateFormat = "2 Jan"
-
-[highlight.copy]
-  enable = true
-  display = "hover"
-
-[page]
-  width = "normal"
-
-[imageZoom]
-  enable = true
+[header]
+  layout = "fixed"
 
 [footer]
-  displayCopyright = true
-  displayPoweredBy = false
+  showMenu = false
+  showCopyright = true
+  showThemeAttribution = false
+  showAppearanceSwitcher = true
+  showScrollToTop = true
 
-[comments]
-  enable = false
+[homepage]
+  layout = "profile"
+  showRecent = true
+  showRecentItems = 5
+  showMoreLink = true
+  showMoreLinkDest = "posts"
+  cardView = false
+  cardViewScreenWidth = false
+
+[article]
+  showDate = true
+  showViews = false
+  showLikes = false
+  showAuthor = false
+  showHero = false
+  showBreadcrumbs = true
+  showDraftLabel = true
+  showEdit = false
+  showHeadingAnchors = true
+  showPagination = true
+  showReadingTime = true
+  showTableOfContents = true
+  showRelatedContent = false
+  showTaxonomies = true
+  showWordCount = false
+  sharingLinks = []
+
+[list]
+  showHero = false
+  showBreadcrumbs = false
+  showSummary = true
+  showViews = false
+  showLikes = false
+  groupByYear = false
+  cardView = false

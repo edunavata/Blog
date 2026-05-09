@@ -1,28 +1,44 @@
 # -- Configuración base del sitio --
-theme = "hextra"
+theme = "blowfish"
 baseURL = "https://blog-cmj.pages.dev/"
 defaultContentLanguage = "es"
 defaultContentLanguageInSubdir = false
 enableRobotsTXT = true
 summaryLength = 30
+enableEmoji = true
 
 [pagination]
   pagerSize = 10
 
+[imaging]
+  anchor = "Center"
+
 [taxonomies]
   tag = "tags"
   category = "categories"
+  author = "authors"
+  series = "series"
 
 [sitemap]
   changeFreq = "daily"
   priority = 0.5
 
 [outputs]
-  home = ["HTML", "RSS"]
+  home = ["HTML", "RSS", "JSON"]
 
 [markup]
+  [markup.goldmark]
+    [markup.goldmark.parser]
+      wrapStandAloneImageWithinParagraph = false
+      [markup.goldmark.parser.attribute]
+        block = true
+    [markup.goldmark.renderer]
+      unsafe = true
   [markup.highlight]
     noClasses = false
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
 
 [related]
   threshold = 80
@@ -37,7 +53,3 @@ summaryLength = 30
   [[related.indices]]
     name = "date"
     weight = 10
-
-[caches]
-  [caches.images]
-    dir = ":cacheDir/images"
