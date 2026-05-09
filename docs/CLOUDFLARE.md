@@ -26,10 +26,15 @@ Configuradas tanto para **Production** como **Preview**:
 
 | Variable       | Valor      | Notas                                          |
 |----------------|------------|------------------------------------------------|
-| `HUGO_VERSION` | `0.160.0`  | Debe coincidir con `.tool-versions` y CI.      |
+| `HUGO_VERSION` | `0.160.0`  | Debe coincidir con la versión de Hugo en CI.   |
 
 Si subes la versión de Hugo, actualiza los tres sitios a la vez:
-`.tool-versions`, `.github/workflows/ci.yaml` (`HUGO_VERSION`) y esta variable.
+`.github/workflows/ci.yaml` (`HUGO_VERSION`), esta variable en Production y
+esta variable en Preview.
+
+No añadir `.tool-versions` para Hugo en este repo: Cloudflare Pages lo detecta
+antes del build y puede intentar instalar Hugo con `asdf-hugo` en vez de usar
+`HUGO_VERSION`.
 
 ## Submódulos
 

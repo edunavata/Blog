@@ -10,25 +10,24 @@ Pages.
 
 ## Stack
 
-- **Hugo Extended 0.160.0** — generador de sitios estáticos
+- **Hugo 0.160.0** — generador de sitios estáticos
 - **Congo v2.13** — tema (Git Submodule)
 - **Cloudflare Pages** — hosting, CDN y previews
 
 ## Requisitos
 
-Hugo Extended 0.160.0. La versión está fijada en `.tool-versions`, así que con
-[`mise`](https://mise.jdx.dev/) o [`asdf`](https://asdf-vm.com/) basta con:
+Hugo 0.160.0. Cloudflare y CI fijan esta versión con `HUGO_VERSION`.
+Para ejecutarlo localmente con [`mise`](https://mise.jdx.dev/):
 
 ```bash
-mise install     # o: asdf install
-hugo version     # debe incluir "extended" y la versión 0.160.0
+mise x hugo@0.160.0 -- hugo version
+mise x hugo@0.160.0 -- hugo server -D
 ```
 
 Si prefieres instalar a mano, descarga el binario desde
 [GitHub Releases](https://github.com/gohugoio/hugo/releases/tag/v0.160.0) y
-asegúrate de que `hugo version` reporta exactamente `0.160.0` con `extended`.
-La CI usa esa misma versión, y un mismatch local puede dejar pasar un build
-que luego falla en CI.
+asegúrate de que `hugo version` reporta `0.160.0`. La CI usa esa misma
+versión, y un mismatch local puede dejar pasar un build que luego falla en CI.
 
 ## Desarrollo local
 
@@ -50,7 +49,6 @@ El blog estará disponible en:
 ```
 ├── .github/workflows/
 │   └── ci.yaml              # Build estricto + link check en PRs y main
-├── .tool-versions           # Pin de Hugo (mise/asdf)
 ├── config/_default/
 │   ├── config.toml          # Configuración base
 │   ├── languages.es.toml    # Parámetros idioma español
@@ -160,7 +158,7 @@ git commit -m "chore(theme): bump Congo to vX.Y.Z"
   (Congo accede a `.Site.Author`, que ya no existe en versiones recientes).
 - `_partials/sharing-links.html` — usa `hugo.Data.sharing` en lugar de
   `site.Data.sharing` (deprecado en 0.156).
-- `_partials/translations.html` — usa `hugo.Languages` en lugar de
+- `_partials/translations.html` — usa `.Rotate "language"` en lugar de
   `site.Languages` (deprecado en 0.156).
 
 Cuando Congo publique una versión que arregle estos puntos upstream,
