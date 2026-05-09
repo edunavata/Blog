@@ -125,6 +125,41 @@ body {
 
 .blog-hamburger:hover { color: var(--blog-text); }
 
+/* Mobile nav drawer */
+
+#blog-mobile-nav {
+  display: none;
+  flex-direction: column;
+  border-top: 1px solid var(--blog-border);
+  padding: 8px 32px 24px;
+  background: var(--blog-bg);
+}
+
+#blog-mobile-nav.open { display: flex; }
+
+.blog-mobile-link {
+  padding: 14px 0;
+  font-size: 16px;
+  color: var(--blog-text-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--blog-border);
+  transition: color 150ms ease;
+}
+
+.blog-mobile-link:last-child { border-bottom: none; }
+.blog-mobile-link:hover { color: var(--blog-text); }
+.blog-mobile-link.active { color: var(--blog-text); font-weight: 500; }
+
+body.blog-menu-open { overflow: hidden; }
+
+@media (min-width: 768px) {
+  #blog-mobile-nav { display: none !important; }
+}
+
+@media (max-width: 480px) {
+  #blog-mobile-nav { padding: 8px 16px 24px; }
+}
+
 @media (max-width: 767px) {
   .blog-nav-center { display: none; }
   .blog-hamburger { display: flex; align-items: center; }
