@@ -54,6 +54,21 @@ SI: no encuentro referencia → DECIRLO EXPLÍCITAMENTE, NO inventar
 
 - **Generador:** Hugo (static site generator escrito en Go)
 - **Versión EXACTA:** `v0.161.1-ea8f66a7ce+extended linux/amd64` (BuildDate: 2026-04-29)
+
+### Política de versión
+Esta versión está **congelada intencionalmente**. NO actualizar Hugo a menos que se cumpla
+al menos UNA de estas condiciones:
+1. Hay un CVE de seguridad que afecta a esta versión
+2. El tema Congo requiere una versión más nueva para funcionar
+3. Se necesita una funcionalidad nueva específica que justifique el coste de migración
+
+Antes de cualquier upgrade:
+- Leer TODAS las release notes entre la versión actual y la nueva
+- Ejecutar `hugo 2>&1 | grep -iE "warn|deprecated"` y resolver TODO antes de commitear
+- Actualizar este CLAUDE.md con las nuevas deprecaciones/cambios
+
+Próxima revisión programada: noviembre 2026.
+
 - **Edición:** Extended (incluye Sass transpiler embebido — NOTA: LibSass embebido está DEPRECADO desde v0.153.0, usar Dart Sass)
 - **Go version:** 1.26.1 (incluye fix de seguridad CVE-2026-27142 para html/template)
 - **Formato de configuración:** `hugo.toml` (NO `config.toml`, que es legacy)
