@@ -1,0 +1,168 @@
+{{ define "main" }}
+{{- $allPosts := where site.RegularPages "Section" "posts" -}}
+
+<main class="home-page" id="content">
+
+  {{/* ── HERO ── */}}
+  <section class="home-hero">
+    <div class="home-container">
+      {{ with .Params.heroEyebrow }}
+        <div class="hero-eyebrow">
+          <span class="hero-blink" aria-hidden="true"></span>
+          <span>{{ . }}</span>
+        </div>
+      {{ end }}
+      {{ with .Params.heroTitle }}
+        <h1 class="hero-title">{{ . | markdownify }}</h1>
+      {{ end }}
+      {{ with .Params.heroLead }}
+        <p class="hero-lead">{{ . }}</p>
+      {{ end }}
+      <div class="cta-row">
+        {{ with .Params.ctaPrimary }}
+          <a href="{{ .url | relURL }}" class="home-btn home-btn-primary">
+            {{ .text }}
+            <svg class="home-btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        {{ end }}
+        {{ with .Params.ctaSecondary }}
+          <a href="{{ .url | relURL }}" class="home-btn">{{ .text }}</a>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+
+  {{/* ── POST DESTACADO — el más reciente ── */}}
+  {{ with index $allPosts 0 }}
+    {{- $post := . -}}
+    <section class="home-section">
+      <div class="home-container">
+        <div class="section-head">
+          <span class="section-label">{{ i18n "featured" | default "Destacado" }}</span>
+        </div>
+        <a class="home-featured" href="{{ $post.RelPermalink }}">
+          <div class="featured-cover">
+            {{- with $post.Resources.GetMatch "cover.*" -}}
+              {{- $img := .Resize "800x webp" -}}
+              <img src="{{ $img.RelPermalink }}"
+                   alt="{{ $post.Title }}"
+                   width="{{ $img.Width }}"
+                   height="{{ $img.Height }}"
+                   loading="lazy">
+            {{- else -}}
+              <div class="featured-cover-placeholder" aria-hidden="true"></div>
+            {{- end -}}
+          </div>
+          <div class="featured-body">
+            <div class="featured-meta">
+              {{- with $post.GetTerms "tags" | first 1 -}}
+                {{- range . -}}
+                  <span class="featured-pill">{{ .LinkTitle }}</span>
+                {{- end -}}
+                <span class="featured-dot" aria-hidden="true"></span>
+              {{- end -}}
+              {{- with $post.Date -}}
+                <span>{{ time.Format "2 January 2006" . }}</span>
+              {{- end -}}
+              {{- with $post.ReadingTime -}}
+                <span class="featured-dot" aria-hidden="true"></span>
+                <span>{{ i18n "minuteRead" . }}</span>
+              {{- end -}}
+            </div>
+            <h3 class="featured-title">{{ $post.Title }}</h3>
+            <p class="featured-desc">{{ $post.Description | default ($post.Summary | plainify | truncate 180) }}</p>
+            <span class="featured-read" aria-hidden="true">
+              {{ i18n "readArticle" | default "Leer artículo" }}
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </section>
+  {{ end }}
+
+  {{/* ── ÚLTIMOS POSTS — los 3 siguientes al featured ── */}}
+  {{ $latestPosts := after 1 $allPosts | first 3 }}
+  {{ with $latestPosts }}
+    <section class="home-section">
+      <div class="home-container">
+        <div class="section-head">
+          <h2 class="section-title">{{ i18n "latestPosts" | default "Últimos artículos" }}</h2>
+          <a class="section-more" href="{{ "posts/" | relLangURL }}">
+            {{ i18n "viewAll" | default "Ver todos" }}
+            <svg class="section-more-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+        <div class="home-posts-grid">
+          {{ range . }}
+            <a class="home-post-card" href="{{ .RelPermalink }}">
+              {{- with .GetTerms "tags" | first 1 -}}
+                {{- range . -}}
+                  <div class="pc-tag">{{ .LinkTitle }}</div>
+                {{- end -}}
+              {{- end -}}
+              <h3 class="pc-title">{{ .Title }}</h3>
+              <p class="pc-desc">{{ .Description | default (.Summary | plainify | truncate 120) }}</p>
+              <div class="pc-meta">
+                {{- with .Date -}}<span>{{ time.Format "2 Jan 2006" . }}</span>{{- end -}}
+                {{- with .ReadingTime -}}
+                  <span class="pc-dot" aria-hidden="true"></span>
+                  <span>{{ . }} min</span>
+                {{- end -}}
+              </div>
+            </a>
+          {{ end }}
+        </div>
+      </div>
+    </section>
+  {{ end }}
+
+  {{/* ── CATEGORÍAS ── */}}
+  {{ with site.GetPage "/categories" }}
+    {{ if .Pages }}
+      {{- $catIndex := . -}}
+      <section class="home-section">
+        <div class="home-container">
+          <div class="section-head">
+            <h2 class="section-title">{{ i18n "exploreByCategory" | default "Explorar por categoría" }}</h2>
+            <a class="section-more" href="{{ $catIndex.RelPermalink }}">
+              {{ i18n "allCategories" | default "Todas" }}
+              <svg class="section-more-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+          <div class="home-cats">
+            {{ range $catIndex.Pages }}
+              <a class="cat-chip" href="{{ .RelPermalink }}">
+                {{ .Title }}
+                <span class="cat-count">{{ .Pages | len }}</span>
+              </a>
+            {{ end }}
+          </div>
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+
+  {{/* ── ABOUT ── */}}
+  {{ if or .Params.aboutText .Params.avatarURL }}
+    <section class="home-section home-section-last">
+      <div class="home-container">
+        <div class="section-head">
+          <span class="section-label">{{ i18n "aboutMe" | default "Sobre mí" }}</span>
+        </div>
+        <div class="home-about">
+          {{ with .Params.avatarURL }}
+            <img class="about-avatar" src="{{ . }}" alt="Avatar" width="64" height="64" loading="lazy">
+          {{ else }}
+            <div class="about-avatar-placeholder" aria-hidden="true"></div>
+          {{ end }}
+          {{ with .Params.aboutText }}
+            <p class="about-text">{{ . | markdownify }}</p>
+          {{ end }}
+        </div>
+      </div>
+    </section>
+  {{ end }}
+
+</main>
+{{ end }}
