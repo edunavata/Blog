@@ -4,16 +4,4 @@ weight = 2
 title = "My Blog"
 
 [params]
-  displayName = "EN"
-  isoCode = "en"
-  dateFormat = "2 January 2006"
   description = "Personal blog about technology and development."
-
-[params.author]
-  name = "Your Name"
-  # image = "img/author.jpg"
-  headline = "Developer & Writer"
-  bio = "I write about technology, web development and things I find interesting."
-  links = [
-    { github = "https://github.com/your-username" },
-  ]

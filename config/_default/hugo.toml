@@ -1,5 +1,5 @@
 # -- Configuración base del sitio --
-theme = "congo"
+theme = "hextra"
 baseURL = "https://blog-cmj.pages.dev/"
 defaultContentLanguage = "es"
 defaultContentLanguageInSubdir = false
@@ -12,14 +12,13 @@ summaryLength = 30
 [taxonomies]
   tag = "tags"
   category = "categories"
-  author = "authors"
 
 [sitemap]
   changeFreq = "daily"
   priority = 0.5
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML", "RSS"]
 
 [markup]
   [markup.highlight]
