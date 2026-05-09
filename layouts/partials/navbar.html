@@ -38,11 +38,74 @@
 
     {{/* Hamburger — mobile */}}
     <button type="button"
+            id="blog-hamburger"
             aria-label="{{ (T "menu") | default "Menú" }}"
             aria-expanded="false"
-            class="hextra-hamburger-menu blog-hamburger">
+            aria-controls="blog-mobile-nav"
+            class="blog-hamburger">
       {{- partial "utils/icon.html" (dict "name" "hamburger-menu" "attributes" "height=24") -}}
     </button>
 
   </div>
+
+  {{/* Mobile nav drawer */}}
+  <div id="blog-mobile-nav" style="display:none" aria-hidden="true" aria-label="Navegación móvil">
+    {{- range site.Menus.main -}}
+      {{- if not (in (slice "search" "theme-toggle" "language-switch") .Params.type) -}}
+        {{- $link := .URL -}}
+        {{- with .PageRef -}}
+          {{- if hasPrefix . "/" -}}
+            {{- $link = relLangURL (strings.TrimPrefix "/" .) -}}
+          {{- end -}}
+        {{- end -}}
+        {{- $external := strings.HasPrefix $link "http" -}}
+        {{- $active := or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) -}}
+        <a href="{{ $link }}"
+           class="blog-mobile-link{{ if $active }} active{{ end }}"
+           {{ if $external }}target="_blank" rel="noreferrer"{{ end }}>
+          {{- .Name -}}
+        </a>
+      {{- end -}}
+    {{- end -}}
+  </div>
+
 </nav>
+
+{{/* Dummy container para satisfacer el JS de Hextra (menu.js busca .hextra-sidebar-container) */}}
+<div class="hextra-sidebar-container" style="display:none" aria-hidden="true"></div>
+
+<script>
+(function () {
+  var btn = document.getElementById('blog-hamburger');
+  var nav = document.getElementById('blog-mobile-nav');
+  if (!btn || !nav) return;
+
+  function isOpen() { return btn.getAttribute('aria-expanded') === 'true'; }
+
+  function openMenu() {
+    nav.style.display = 'flex';
+    btn.setAttribute('aria-expanded', 'true');
+    nav.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('blog-menu-open');
+  }
+
+  function closeMenu() {
+    nav.style.display = 'none';
+    btn.setAttribute('aria-expanded', 'false');
+    nav.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('blog-menu-open');
+  }
+
+  btn.addEventListener('click', function () {
+    isOpen() ? closeMenu() : openMenu();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && isOpen()) { closeMenu(); btn.focus(); }
+  });
+
+  nav.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { closeMenu(); });
+  });
+})();
+</script>
