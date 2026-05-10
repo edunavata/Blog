@@ -38,7 +38,7 @@
         {{- if and .Date .Lastmod -}}
           {{- if ne (.Date.Format "2006-01-02") (.Lastmod.Format "2006-01-02") -}}
             <span class="blog-meta-dot" aria-hidden="true"></span>
-            <span class="blog-meta-updated">actualizado el {{ time.Format "2 Jan" .Lastmod }}</span>
+            <span class="blog-meta-updated">{{ i18n "updateAt" . }} {{ time.Format "2 Jan" .Lastmod }}</span>
           {{- end -}}
         {{- end -}}
       </div>
