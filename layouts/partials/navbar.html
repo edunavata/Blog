@@ -31,9 +31,15 @@
       {{- end -}}
     </div>
 
-    {{/* Controles derecha: theme toggle */}}
-    <div class="blog-nav-right">
+    {{/* Controles derecha: language switch y theme toggle */}}
+    <div class="blog-nav-right" style="display: flex; align-items: center; gap: 0.5rem;">
+      
+      {{/* 1. Agregamos el selector de idiomas de Hextra */}}
+      {{ partial "language-switch.html" (dict "context" $page "location" "top" "class" "hx:p-2 hx:text-current hx:rounded-md hx:hover:bg-gray-100 hx:dark:hover:bg-neutral-800") }}
+
+      {{/* 2. Tu theme toggle original */}}
       {{ partial "theme-toggle.html" (dict "hideLabel" true "iconHeight" 16 "location" "top" "class" "hx:p-2 hx:text-current hx:rounded-md hx:hover:bg-gray-100 hx:dark:hover:bg-neutral-800") }}
+      
     </div>
 
     {{/* Hamburger — mobile */}}
