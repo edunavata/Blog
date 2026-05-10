@@ -5,11 +5,21 @@
   {{/* ── HERO ── */}}
   <section class="about-hero">
     {{ with .Params.avatarURL }}
-      <img class="about-avatar-lg"
-           src="{{ . }}"
-           alt="{{ $.Params.heroName }}"
-           width="140" height="140"
-           loading="eager">
+      {{/* 1. Buscamos la imagen en assets/ */}}
+      {{ $image := resources.Get . }}
+      
+      {{ if $image }}
+        {{/* 2. La procesamos al DOBLE de resolución (280x280) y calidad 90 para pantallas Retina */}}
+        {{ $imgProcessed := $image.Resize "280x280 webp q90" }}
+        
+        <img class="about-avatar-lg"
+            src="{{ $imgProcessed.RelPermalink }}"
+            alt="{{ $.Params.heroName }}"
+            width="140" height="140"
+            loading="eager">
+      {{ else }}
+        <div class="about-avatar-placeholder-lg" aria-hidden="true"></div>
+      {{ end }}
     {{ else }}
       <div class="about-avatar-placeholder-lg" aria-hidden="true"></div>
     {{ end }}

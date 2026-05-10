@@ -13,6 +13,7 @@ summaryLength = 70
 [taxonomies]
   tag = "tags"
   category = "categories"
+  grupo = "grupos" # <-- Añadido para que coincida con tu layout
 
 [sitemap]
   changeFreq = "weekly"
@@ -22,15 +23,12 @@ summaryLength = 70
   home = ["HTML", "RSS"]
   section = ["HTML", "RSS"]
 
-[markup]
-  [markup.goldmark]
-    [markup.goldmark.renderer]
-      unsafe = true
-    [markup.goldmark.extensions]
-      [markup.goldmark.extensions.typographer]
-        disable = false
-  [markup.highlight]
-    noClasses = false
+[markup.goldmark.renderer]
+  unsafe = true
+[markup.goldmark.extensions.typographer]
+  disable = false
+[markup.highlight]
+  noClasses = false
 
 [related]
   threshold = 80
@@ -46,6 +44,16 @@ summaryLength = 70
     name = "date"
     weight = 10
 
-[caches]
-  [caches.images]
-    dir = ":cacheDir/images"
+[caches.images]
+  dir = ":cacheDir/images"
+
+# -- Configuración de Idiomas --
+# Al no especificar contentDir, Hugo usará la raíz /content/ para ambos.
+# Para el idioma secundario (en), deberás usar el sufijo de archivo, ej: primer-post.en.md
+[languages]
+  [languages.es]
+    label = "Español"
+    weight = 1
+  [languages.en]
+    label = "English"
+    weight = 2
