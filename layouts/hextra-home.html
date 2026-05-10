@@ -175,10 +175,26 @@
         </div>
         <div class="home-about">
           {{ with .Params.avatarURL }}
-            <img class="about-avatar" src="{{ . }}" alt="Avatar" width="64" height="64" loading="lazy">
-          {{ else }}
-            <div class="about-avatar-placeholder" aria-hidden="true"></div>
-          {{ end }}
+          {{/* Buscamos la imagen en assets/ */}}
+          {{ $image := resources.Get . }}
+          
+          {{ if $image }}
+            {{/* La procesamos al tamaño exacto que pide este layout (64x64) */}}
+            {{ $imgProcessed := $image.Resize "64x64 webp" }}
+            <img class="about-avatar" 
+                src="{{ $imgProcessed.RelPermalink }}" 
+                alt="Avatar" 
+                width="{{ $imgProcessed.Width }}" 
+                height="{{ $imgProcessed.Height }}" 
+                loading="lazy">
+              {{ else }}
+                {{/* Fallback si no encuentra la imagen en assets */}}
+                <div class="about-avatar-placeholder" aria-hidden="true"></div>
+              {{ end }}
+              {{ else }}
+              {{/* Fallback si el front matter no tiene avatarURL */}}
+              <div class="about-avatar-placeholder" aria-hidden="true"></div>
+              {{ end }}
           {{ with .Params.aboutText }}
             <p class="about-text">{{ . | markdownify }}</p>
           {{ end }}

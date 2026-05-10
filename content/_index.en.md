@@ -12,5 +12,5 @@ ctaSecondary:
   text: "About me"
   url: "/en/about/"
 aboutText: "If you want to contact me, write to [my email](mailto:edunavata@gmail.com) or find me on [GitHub](https://github.com/edunavata)."
-avatarURL: ""
+avatarURL: "img/avatar.jpg"
 ---
