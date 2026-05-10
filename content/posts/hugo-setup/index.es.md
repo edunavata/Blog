@@ -7,6 +7,9 @@ description: "Guía rápida de cómo configuré Hugo con el tema Hextra y despli
 summary: "Guía rápida de cómo configuré Hugo con el tema Hextra y despliegue en Cloudflare Pages."
 tags: ["hugo", "tutorial", "cloudflare"]
 categories: ["tech"]
+cover:
+  image: "cover.png"
+  alt: "Cover image"
 ---
 
 ## El stack
