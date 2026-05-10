@@ -50,8 +50,31 @@
                    height="{{ $img.Height }}"
                    loading="lazy">
             {{- else -}}
-              <div class="featured-cover-placeholder" aria-hidden="true"></div>
-            {{- end -}}
+              <div class="featured-cover">
+                {{- /* Determine the cover image source: front matter cover.image, then cover.* resource */ -}}
+                {{- $coverSrc := "" -}}
+                
+                {{- if reflect.IsMap $post.Params.cover -}}
+                  {{- $coverSrc = $post.Params.cover.image -}}
+                {{- else if $post.Params.cover -}}
+                  {{- $coverSrc = $post.Params.cover -}}
+                {{- end -}}
+                
+                {{- $img := or ($post.Resources.GetMatch $coverSrc) ($post.Resources.GetMatch "cover.*") -}}
+                
+                {{- with $img -}}
+                  {{- $resized := .Resize "800x webp q90" -}}
+                  <img src="{{ $resized.RelPermalink }}"
+                      width="{{ $resized.Width }}"
+                      height="{{ $resized.Height }}"
+                      alt="{{ $post.Title }}"
+                      loading="eager">
+                {{- else -}}
+                  <div class="featured-cover-placeholder" aria-hidden="true"></div>
+                {{- end -}}
+              </div>
+              
+                {{- end -}}
           </div>
           <div class="featured-body">
             <div class="featured-meta">
